@@ -1,5 +1,5 @@
 const express = require('express')
-const mailRoutes = require('./Routes/mail')
+const mailRouter = require('./Routes/mail')
 
 const app = express()
 
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 })
 
 // Route pour envoyer l'e-mail
-app.use('/api', mailRoutes)
+app.use('/api', mailRouter)
 
 // Route pour la page d'accueil
 app.get('/', (req, res) => {

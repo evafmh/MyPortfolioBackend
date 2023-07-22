@@ -1,8 +1,9 @@
 const express = require('express')
-const router = express.Router()
+const mailRouter = express.Router() // Rename router to mailRouter
 const mailController = require('../Controllers/mailController')
+const limiter = require('../middlewares/rateLimit')
 
-// Route pour envoyer l'email
-router.post('/sendEmail', mailController.sendEmail)
+// Route for sending the email
+mailRouter.post('/sendEmail', limiter, mailController.sendEmail)
 
-module.exports = router
+module.exports = mailRouter;

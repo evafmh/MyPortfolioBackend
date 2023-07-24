@@ -3,31 +3,25 @@ const validator = require('validator')
 
 // Function to send an email
 exports.sendEmail = (req, res) => {
-    console.log(req.body)
     const { name, email, message } = req.body
+    const errors = [];
 
-    console.log('Name:', name)
-    console.log('Email:', email)
-    console.log('Message:', message)
-
-    //Validate input
-
+    // Validate input
     if (!validator.isEmail(email)) {
-        return res
-            .status(400)
-            .json({ error: 'Please provide a valid email address' })
+        errors.push('Please provide a valid email address');
     }
 
     if (name.length > 80) {
-        return res
-            .status(400)
-            .json({ error: 'Name should not exceed 80 characters' })
+        errors.push('Name should not exceed 80 characters');
     }
 
     if (message.length > 4000) {
-        return res
-            .status(400)
-            .json({ error: 'Message should not exceed 4000 characters' })
+        errors.push('Message should not exceed 4000 characters');
+    }
+
+    // Return in case of errors
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
     }
 
     // Configuration for Nodemailer to send the email
@@ -42,7 +36,7 @@ exports.sendEmail = (req, res) => {
     // Email options
     const mailOptions = {
         from: process.env.OUTLOOK_EMAIL,
-        to: 'eva.famechon@outlook.com',
+        to: process.env.REACT_APP_OUTLOOK_EMAIL,
         subject: `Portfolio Contact ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     }
@@ -50,10 +44,8 @@ exports.sendEmail = (req, res) => {
     // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log(error)
             res.status(500).send('Error while sending the email')
         } else {
-            console.log('Email sent: ' + info.response)
             res.send('Email sent successfully')
         }
     })

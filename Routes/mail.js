@@ -1,5 +1,5 @@
 const express = require('express')
-const mailRouter = express.Router() // Rename router to mailRouter
+const mailRouter = express.Router()
 const mailController = require('../Controllers/mailController')
 const limiter = require('../middlewares/rateLimit')
 

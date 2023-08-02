@@ -6,7 +6,10 @@ const app = express()
 
 // Add cors middleware to allow requests from the frontend domain
 app.use(cors({
-  origin: 'https://evafmh.github.io', 
+  origin: 'https://evafmh.github.io',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  exposedHeaders: ['Permissions-Policy'],
 }));
 
 // Traitement des requêtes et réponses

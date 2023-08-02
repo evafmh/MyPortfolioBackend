@@ -1,7 +1,13 @@
 const express = require('express')
 const mailRouter = require('./Routes/mail')
+const cors = require('cors'); // Import the cors package
 
 const app = express()
+
+// Add cors middleware to allow requests from the frontend domain
+app.use(cors({
+  origin: 'https://evafmh.github.io', 
+}));
 
 // Traitement des requêtes et réponses
 app.use(express.json())
